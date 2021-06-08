@@ -4,14 +4,16 @@ using Forum_Snackis.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Forum_Snackis.Migrations
 {
     [DbContext(typeof(Forum_SnackisContext))]
-    partial class Forum_SnackisContextModelSnapshot : ModelSnapshot
+    [Migration("20210608145158_AddGroupClass")]
+    partial class AddGroupClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

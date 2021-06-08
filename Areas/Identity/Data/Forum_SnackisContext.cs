@@ -20,6 +20,7 @@ namespace Forum_Snackis.Data
         public DbSet<Insert> Inserts { get; set; }
         public DbSet<Thread> Threads { get; set; }
         public DbSet<PrivateMessage> PrivateMessages { get; set; }
+        public DbSet<GroupMessage> GroupMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
