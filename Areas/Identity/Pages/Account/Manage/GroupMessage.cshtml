@@ -1,0 +1,55 @@
+﻿@page
+@model Forum_Snackis.Areas.Identity.Pages.Account.Manage.GroupMessageModel
+@{
+}
+<p>Skapa grupp:</p>
+<form method="post">
+    <input type="text" name="receiver" />
+    <input name="userid" value="@Model.MyUser.Id" hidden />
+    <button type="submit">Spara</button>
+</form>
+<br />
+
+<p>Välj medlemmar:</p>
+<form method="post">
+    <input type="text" name="receiver" />
+    <input name="userid" value="@Model.MyUser.Id" hidden />
+    <button type="submit">Spara</button>
+</form>
+<br />
+
+<p>Här ser du medlemmarna.</p>
+
+@for (int i = 0; i < 3; i++)
+{
+    <p>namn @i (radera) </p>
+}
+<form method="post">
+
+    <textarea rows="4" cols="70" name="text" placeholder="Skriv här"></textarea>
+    @*<input name="receiver" value="" hidden />*@
+    <input name="userid" value="@Model.MyUser.Id" hidden />
+    <br />
+    <button type="submit">Spara</button>
+</form>
+
+@foreach (var message in Model.PrivateMessages)
+{
+
+    <div class="card" style="margin-bottom:20px; margin-top:20px">
+        <div class="card-body" style="width:1000px">
+            <div class="row">
+                <div class="col-2">
+                    <img src="" class="rounded-circle" style="margin-right: 10px; margin-left: 10px; height: 50px; width: 50px" alt="...">
+                    <br />
+                    nickname
+                </div>
+                <div class="col-7">
+                    date
+                    <hr />
+                    text
+                </div>
+            </div>
+        </div>
+    </div>
+}

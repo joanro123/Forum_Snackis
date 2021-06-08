@@ -1,0 +1,92 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Snackis Forum</h1>
+</div>
+<br />
+@{ var groupByHeader = Model.AdminFunctions.GroupBy(g => g.ForumHeader);}
+@foreach (var group in groupByHeader)
+{
+    <div class="container">
+        <div class="row">
+            <div class="card">
+                <div class="card-body" style="width:1000px; background-color:lightgrey">
+                    <h6>@group.Key</h6>
+                </div>
+            </div>
+            @foreach (var item in group)
+            {
+                if (item.Subject != null)
+                {
+
+                    <div class="card">
+                        <div class="card-body" style="width:1000px">
+                            <a href="./Forums?Subject=@item.Subject">@item.Subject</a>
+                            <br />
+
+                            @if (item.Description != null)
+                            {
+                                <div>
+                                    @item.Description
+                                </div>
+                            }
+
+                            @if (Model.CountThreads(item.Subject) != 0 && Model.CountThreads(item.Subject) != 1)
+                            {
+                                <div>@Model.CountThreads(item.Subject) ämnen - @Model.CountInserts(item.Subject) svar</div>
+                            }
+                            @if (Model.CountThreads(item.Subject) == 1)
+                            {
+                            <div>@Model.CountThreads(item.Subject) ämne - @Model.CountInserts(item.Subject) svar</div>
+                            }
+
+
+
+                        </div>
+                        </div>
+                        }
+                                }
+                            </div>
+    </div>
+    <br />
+}
+
+
+
+@*<div class="container">
+        <div class="row">
+            <div class="card">
+                <div class="card-body" style="width:1000px; background-color:lightgrey">
+                    <h6>Allmänt om ämnet</h6>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body" style="width:1000px">
+                    <a href="">Länk till ämnet</a>
+                    <br />
+                    <p>
+                        beskrivning text om saken
+                        <br />
+                        5345 ämnen - 12 000 svar
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-body" style="width:1000px">
+                        <a href="">Länk till ämnet</a>
+                        <br />
+                        <p>
+                            beskrivning text om saken
+                            <br />
+                            5345 ämnen - 12 000 svar
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>*@

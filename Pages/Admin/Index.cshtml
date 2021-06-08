@@ -1,0 +1,90 @@
+﻿@page
+@model Forum_Snackis.Pages.Admin.IndexModel
+@{
+}
+
+<p>Skapa rubrik</p>
+<form method="post">
+    <input type="text" name="header" />
+    <button type="submit">Spara</button>
+</form>
+<br />
+
+<p>Skapa ämnen</p>
+<form method="post">
+    <label for="cars">Välj rubrik</label>
+    <select name="header" id="cars">
+        @foreach (var item in Model.Distinct)
+        {
+            <option value="@item.ForumHeader">@item.ForumHeader</option>
+        }
+    </select>
+    <input type="text" name="subject" placeholder="Skriv ämne" />
+    <br />
+    <textarea rows="3" cols="50" name="description" placeholder="Beskrivning om ämnet"></textarea>
+    <br />
+    <button type="submit">Spara</button>
+</form>
+<br />
+
+<table>
+    <p>Alla rubriker syns här:</p>
+    @foreach (var item in Model.Distinct)
+    {
+        <tr>
+            <td>@item.ForumHeader</td>
+            @*<td style="padding-right: 10px; padding-left: 10px"><a href="?updateid=@item.Id">Uppdatera</a></td>
+                <td><a href="?DeleteId=@item.Id">Radera</a></td>*@
+        </tr>
+    }
+</table>
+
+
+<br />
+<table>
+    <p>Alla ämnen syns här:</p>
+    <tr>
+        <th>Rubrik</th>
+        <th>Ämne</th>
+    </tr>
+    @foreach (var item in Model.Functions)
+    {
+        if (item.Subject != null)
+        {
+            <tr>
+                <td>@item.ForumHeader</td>
+                <td>@item.Subject</td>
+                <td style="padding-right: 10px; padding-left: 10px"><a href="?updateid=@item.Id">Uppdatera</a></td>
+                <td><a href="?DeleteId=@item.Id">Radera</a></td>
+            </tr>
+        }
+    }
+</table>
+<br />
+<br />
+<br />
+
+<p>Här ser du alla anmälningar:</p>
+<table>
+    @foreach (var item in Model.Inserts.Where(w => w.Offensive == true))
+    {
+        @foreach (var user in Model.Users)
+        {
+            if (user.Id == item.Writer)
+            {
+
+    <tr>
+        <th style="padding-right: 20px">Ämne</th>
+        <th style="padding-right: 20px">Användarnamn</th>
+        <th style="padding-right: 20px">Inlägg</th>
+    </tr>
+    <tr>
+        <td style="padding-right: 20px">@item.Subject</td>
+        <td style="padding-right: 20px">@user.NickName</td>
+        <td style="padding-right: 20px">@item.Text</td>
+        <td><a href="?OffensiveId=@item.Id">Radera</a></td>
+    </tr>
+                }
+            }
+        }
+</table>

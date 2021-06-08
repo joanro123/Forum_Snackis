@@ -1,0 +1,103 @@
+﻿@page
+@model Forum_Snackis.Areas.Identity.Pages.Account.Manage.PrivateMessageModel
+@{
+    ViewData["ActivePage"] = ManageNavPages.PrivateMessage;
+}
+
+<p>Skriv användarnamnet:</p>
+<form method="post">
+    <input type="text" name="receiver" />
+    <input name="userid" value="@Model.MyUser.Id" hidden />
+    <button type="submit">Spara</button>
+</form>
+<br />
+
+
+
+<form method="post">
+    <label for="cars">Välj mottagare</label>
+    <select name="receiver" id="cars">
+        @foreach (var item in Model.PrivateMessages)
+        {
+            if (item.UserId == Model.MyUser.Id)
+            {
+                <option value="@item.Receiver">@item.Receiver</option>
+            }
+        }
+    </select>
+    <br />
+    <textarea rows="4" cols="70" name="text" placeholder="Skriv här"></textarea>
+    <input name="receiver" value="@Model.Receiver" hidden />
+    <input name="userid" value="@Model.MyUser.Id" hidden />
+    <br />
+    <button type="submit">Spara</button>
+</form>
+<br />
+
+@*<form method="post">
+    <textarea rows="4" cols="70" name="text" placeholder="Skriv här"></textarea>
+    <input name="receiver" value="@Model.Receiver" hidden />
+    <br />
+    <button type="submit">Spara</button>
+</form>
+<br />*@
+
+<div class="container">
+
+    <div class="row">
+
+        @foreach (var message in Model.PrivateMessages)
+        {
+            @foreach (var user in Model.Users)
+            {
+
+                if (message.Text != null)
+                {
+                    if (message.Receiver == user.NickName && message.UserId == Model.MyUser.Id)
+                    {
+
+
+                <div class="card" style="margin-bottom:20px">
+                    <div class="card-body" style="width:1000px">
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="@Model.MyUser.Photo" class="rounded-circle" style="margin-right: 10px; margin-left: 10px; height: 50px; width: 50px" alt="...">
+                                <br />
+                                @Model.MyUser.NickName
+                            </div>
+                            <div class="col-7">
+                                @message.Date
+                                <hr />
+                                @message.Text
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    }
+
+                    if (message.Receiver == Model.MyUser.NickName && message.UserId == user.Id)
+                    {
+                <div class="card" style="margin-bottom:20px">
+                    <div class="card-body" style="width:1000px">
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="@user.Photo" class="rounded-circle" style="margin-right: 10px; margin-left: 10px; height: 50px; width: 50px" alt="...">
+                                <br />
+                                @user.NickName
+                            </div>
+                            <div class="col-7">
+                                @message.Date
+                                <hr />
+                                @message.Text
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        }
+                    }
+                }
+            }
+    </div>
+</div>
+
+

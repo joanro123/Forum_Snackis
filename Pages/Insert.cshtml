@@ -1,0 +1,19 @@
+﻿@page
+@model Forum_Snackis.Pages.InsertModel
+@{
+}
+
+@if (Model.MyUser != null)
+{
+<form method="post">
+    <textarea rows="4" cols="70" name="text" placeholder="Skriv här"></textarea>
+    <input name="writer" value="@Model.MyUser.Id" hidden />
+    <input name="WriterNickName" value="@Model.MyUser.NickName" hidden/>
+    <br />
+    <button type="submit">Spara</button>
+</form>
+}
+else
+{
+    <p>Du måste logga in först.</p>
+}

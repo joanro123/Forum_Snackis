@@ -1,0 +1,20 @@
+﻿@page
+@model Forum_Snackis.Pages.Admin.UpdateModel
+@{
+}
+
+@foreach (var item in Model.Functions)
+{
+    if (Model.UpdateId == item.Id)
+    {
+
+
+        <form method="post">
+            <input type="text" name="header" value="@item.ForumHeader" />
+            <br />
+            <input type="text" name="subject" value="@item.Subject" />
+            <br />
+            <button type="submit">Spara</button>
+        </form>
+    }
+}

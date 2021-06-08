@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/ronnqvistportfoliodb/databases/ronnqvistsnackisdb2",
+      "type": "mssql.azure",
+      "connectionId": "ronnqvistsnackisdb2",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+﻿@page
+@model Forum_Snackis.Pages.NewThreadModel
+@{
+}
+
+@if (Model.MyUser != null)
+{
+<form method="post">
+    <input type="text" name="name" placeholder="Ny tråd" />
+    <input name="writerid" value="@Model.MyUser.Id" hidden />
+    <button type="submit">Spara</button>
+</form>
+}
+else
+{
+<p>Du måste logga in först.</p>
+}

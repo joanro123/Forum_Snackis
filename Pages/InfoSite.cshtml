@@ -1,0 +1,26 @@
+﻿@page
+@model Forum_Snackis.Pages.InfoSiteModel
+@{
+}
+
+
+<div class="container">
+    <div class="card">
+<div class="card-body">
+    @foreach (var user in Model.Users)
+    {
+@if (Model.UserNickname == user.NickName)
+{
+    <div class="text-center">
+        <h4>@user.NickName</h4>
+        <h5>@user.Hometown</h5>
+        <img src="@user.Photo" height="400"  />
+        <br />
+        <br />
+        <p><b>@user.Description</b></p>
+    </div>
+    }
+ }
+</div>
+    </div>
+</div>

@@ -1,0 +1,157 @@
+﻿@page
+@model Forum_Snackis.Pages.ThreadsModel
+@{
+}
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+</head>
+
+<div class="container">
+
+
+
+    <h5>@Model.Thread</h5>
+    <br />
+    @if (Model.MyUser != null)
+        {
+            <a href="/Insert?Subject=@Model.Subject&Thread=@Model.Thread"><button type="button" class="btn-primary">Svara</button></a>
+        }
+        else
+        {
+            <a href="/Insert"><button type="button" class="btn-primary">Svara</button></a>
+        }
+  
+    <br />
+    <br />
+
+    <div class="row">
+
+        @foreach (var item in Model.Inserts)
+        {
+            @foreach (var user in Model.Users)
+            {
+
+                if (item.Subject == Model.Subject && item.Thread == Model.Thread && item.Writer == user.Id)
+                {
+                    <div class="card" style="margin-bottom:20px">
+                        <div class="card-body" style="width:1000px">
+                            <div class="row">
+                                <div class="col-2">
+                                    <img src="@user.Photo" class="rounded-circle" style="margin-right: 10px; margin-left: 10px; height: 50px; width: 50px" alt="...">
+                                    <br />
+                                    <a href="/InfoSite?UserNickname=@user.NickName">@user.NickName</a>
+                                </div>
+                                <div class="col-9">
+                                    @item.Date
+                                    <hr />
+                                    @item.Text
+                                    <br />
+                                    @if (item.PhotoLink != null)
+                                    {
+                                        <img src="@item.PhotoLink" class="col-5" />
+                                    }
+                                    <br />
+                                <ul>
+                                    @if (item.Like != 0)
+                                    {
+                                        <li>Antal likes: @item.Like</li>
+                                    }
+                                    @if (item.Hearts != 0)
+                                    {
+                                        <li>Antal hjärtor: @item.Hearts</li>
+                                    }
+                                    @if (item.Dislike != 0)
+                                    {
+                                        <li>Antal dissar: @item.Dislike</li>
+                                    }
+                                </ul>
+
+                                </div>
+                            </div>
+
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                @if (Model.MyUser != null)
+                                {
+                                <form asp-page-handler="addlike" method="post">
+                                    <button class="btn btn-outline-primary"><span class="material-icons md-18">thumb_up_off_alt</span></button>
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                </form>
+                                <form asp-page-handler="addhearts" method="post">
+                                    <button class="btn btn-outline-primary"><span class="material-icons md-18">favorite_border</span></button>
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                </form>
+                                <form asp-page-handler="adddislike" method="post">
+                                    <button class="btn btn-outline-primary" style="margin-right: 10px"><span class="material-icons md-18">sentiment_very_dissatisfied</span></button>
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                </form>
+                                }
+
+
+
+                                    @if (Model.MyUser != null && Model.MyUser.Id == item.Writer)
+                                    {
+                                        <button class="btn btn-outline-primary" type="button" id="bildlink" onclick="showLink()">Lägg till bild</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-outline-primary" type="button" onclick="">Lägg till bild</button>
+                                    }
+                                    <a href="?OffensiveId=@item.Id"><button class="btn btn-outline-primary" type="button">Anmäl</button></a>
+</div>
+
+                            @if (Model.MyUser != null && Model.MyUser.Id == item.Writer)
+                            {
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end" id="show" style="visibility:hidden">
+                                    <form method="post">
+                                        <input type="text" name="photolink" placeholder="bildlänk" />
+                                        <input name="insertid" value="@item.Id" hidden />
+                                        <br />
+                                        <button type="submit">Spara</button>
+                                    </form>
+                                </div>
+                            }
+                            @*<p id="show2"></p>*@
+                        </div>
+                        </div>
+                }
+            }
+        }
+    </div>
+</div>
+
+<script>
+
+    
+
+    function showLink() {
+
+        document.getElementById("show").style = "";
+    }
+    function showLink2() {
+
+        document.getElementById("show2").innerHTML = "Du måste logga in först"
+    }
+</script>
+
+
+
+@*<div class="card" style="margin-bottom:20px">
+        <div class="card-body" style="width:1000px">
+            <div class="row">
+                <div class="col-2">
+                    <img src="https://images.pexels.com/photos/2466274/pexels-photo-2466274.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="rounded-circle" style="margin-right: 10px; margin-left: 10px; height: 50px; width: 50px" alt="...">
+                    <br />
+                    Anonym2134
+                </div>
+                <div class="col-9">
+                    12.6.2020.
+                    <hr />
+                    3,7 landade vi på för 1-plan 275kvm BYA (vidbyggt dubbelgarage inkluderat) inkl allt.
+                    Gjorde väldigt mycket själv men hyrde in snickare för 500' för att snabba på allt, samt gjutare, vvs, el och badrum.
+                    Det som jag tror höll ner kostnaderna var att jag själv planerade, köpte in och lede arbetet.
+                </div>
+            </div>
+        </div>
+    </div>*@
