@@ -9,6 +9,7 @@ using Forum_Snackis.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Forum_Snackis.Areas.Identity.Data;
+using System.Text.RegularExpressions;
 
 namespace Forum_Snackis.Pages
 {
@@ -113,6 +114,13 @@ namespace Forum_Snackis.Pages
             }
 
             return RedirectToPage("/Index");
+        } 
+
+        public string BadFilter(string text)
+        {
+
+            Regex wordFilter = new Regex("(bil|kiss|bajskorv|avföring)", RegexOptions.IgnoreCase);
+            return wordFilter.Replace(text, "****");
         }
     }
 }

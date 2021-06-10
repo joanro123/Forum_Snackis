@@ -14,47 +14,71 @@ namespace Forum_Snackis.Areas.Identity.Pages.Account.Manage
     public class GroupMessageModel : PageModel
     {
        
-        private readonly Forum_SnackisContext _SnackisContext;
+        private readonly Forum_SnackisContext _snackisContext;
         private readonly UserManager<Forum_SnackisUser> _userManager;
         public List<Forum_SnackisUser> Users { get; set; }
         public Forum_SnackisUser MyUser { get; set; }
         [BindProperty]
-        public string Receiver { get; set; }
+        public string GroupName { get; set; }
+        
         [BindProperty]
-        public string UserId { get; set; }
+        public string Creator { get; set; }
         [BindProperty]
         public string Text { get; set; }
-        public List<PrivateMessage> PrivateMessages { get; set; }
-        public List<PrivateMessage> Distinct { get; set; }
+        [BindProperty]
+        public string Member { get; set; }
+        [BindProperty]
+        public bool Accept { get; set; }
+      
+        public List<GroupMessage> GroupMessages { get; set; }
+        public List<GroupMessage> Distinct { get; set; }
+        public List<GroupMessage> GroupsWithMyUser { get; set; }
 
 
         public GroupMessageModel(Forum_SnackisContext snackisContext, UserManager<Forum_SnackisUser> userManager)
         {
         
-            _SnackisContext = snackisContext;
+            _snackisContext = snackisContext;
             _userManager = userManager;
         }
         public async Task OnGetAsync()
         {
-            Users = _SnackisContext.Users.ToList();
+            Users = _snackisContext.Users.ToList();
             MyUser = await _userManager.GetUserAsync(User);
-            PrivateMessages = _SnackisContext.PrivateMessages.ToList();
-            Distinct = PrivateMessages.GroupBy(g => g.Receiver).Select(g => g.First()).ToList();
+            GroupMessages = _snackisContext.GroupMessages.ToList();
+            Distinct = GroupMessages.GroupBy(g => g.Name).Select(s => s.First()).ToList();
+            //  GroupsWithMyUser = _snackisContext.GroupMessages.Where(w => w.Member == MyUser.NickName || w.Creator == MyUser.Id).ToList();
+            var q = GroupMessages.GroupBy(g => g.Name, g => g.Member, (key, g) => new { Name = key, Members = g.ToList() }).ToList();
+
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            
-            PrivateMessage privateMessage = new PrivateMessage();
-            privateMessage.Receiver = Receiver;
-            privateMessage.UserId = UserId;
-            privateMessage.Text = Text;
-            privateMessage.Date = DateTime.Now;
 
-            _SnackisContext.PrivateMessages.Add(privateMessage);              
-            
-            await _SnackisContext.SaveChangesAsync();
+            GroupMessage groupMessage = new GroupMessage();
+            groupMessage.Name = GroupName;
+            groupMessage.Creator = Creator;
+            groupMessage.Member = Member;
+            groupMessage.AcceptInvitation = Accept;
+            groupMessage.Message = Text;
+            groupMessage.Date = DateTime.Now;
+
+            _snackisContext.GroupMessages.Add(groupMessage);
+            await _snackisContext.SaveChangesAsync();
          
+
+            return RedirectToPage("./GroupMessage");
+        }
+
+        public async Task<IActionResult> OnPostAcceptInvitation(int id)
+        {
+            GroupMessage groupMessage = await _snackisContext.GroupMessages.FindAsync(id);
+
+            if (groupMessage != null)
+            {
+                groupMessage.AcceptInvitation = true;
+                await _snackisContext.SaveChangesAsync();
+            }
 
             return RedirectToPage("./GroupMessage");
         }
