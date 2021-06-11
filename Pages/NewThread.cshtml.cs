@@ -34,11 +34,10 @@ namespace Forum_Snackis.Pages
             _signInManager = signInManager;
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task OnGetAsync()
         {
             MyUser = await _userManager.GetUserAsync(User);
 
-            return Page();
         }
 
         public async  Task<IActionResult> OnPostAsync()
@@ -50,7 +49,7 @@ namespace Forum_Snackis.Pages
             _snackisContext.Threads.Add(thread);
             await _snackisContext.SaveChangesAsync();
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Forums", new { Subject = thread.Subject });
         }
     }
 }

@@ -55,23 +55,52 @@
 
 @foreach (var item in Model.GroupMessages.GroupBy(g => g.Name))
 {
-    <ul>
-        <li><b>@item.Key</b></li>
-        @foreach (var member in item)
+<ul>
+    <li><b>@item.Key</b></li>
+    @foreach (var member in item)
+    {
+        if (member.Member != null)
         {
-            @if (member.Member != null)
+
+            if (member.AcceptInvitation == true && member.Creator != Model.MyUser.NickName)
             {
-                @if (member.AcceptInvitation != true)
+
+
+                if (member.Member != member.Creator)
                 {
-                    <li>@member.Member (har inte tackat ja)</li>
+            <li>@member.Member</li>
                 }
                 else
                 {
-                    <li>@member.Member</li>
+            <li>@member.Creator (skapade gruppen)</li>
                 }
             }
+            if (member.AcceptInvitation != true && member.Creator != Model.MyUser.NickName)
+            {
+            <li>@member.Member (har inte tackat ja)</li>
+            }
+
+
+        @if (member.AcceptInvitation != true && member.Creator == Model.MyUser.NickName)
+        {
+            <li>@member.Member (har inte tackat ja) <a href="?DeleteUserId=@member.Id">Radera</a></li>
         }
-    </ul>
+
+            if (member.AcceptInvitation == true && member.Creator == Model.MyUser.NickName && member.Member != Model.MyUser.NickName)
+            {
+            <li>@member.Member <a href="?DeleteUserId=@member.Id">Radera</a></li>
+            }
+
+            if (member.AcceptInvitation == true && member.Creator == Model.MyUser.NickName && member.Member == Model.MyUser.NickName)
+            {
+            <li>@member.Member (Skapade gruppen) (Det är jag)</li>
+            }
+
+
+
+        }
+    }
+</ul>
 }
 
 

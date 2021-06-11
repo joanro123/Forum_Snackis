@@ -20,11 +20,11 @@ namespace Forum_Snackis.Pages
         [BindProperty(SupportsGet = true)]
         public string Subject { get; set; }
        
-        [BindProperty(SupportsGet = true)]
+        [BindProperty]
         public int OffensiveId { get; set; }
         [BindProperty]
         public string PhotoLink { get; set; }
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public int InsertId { get; set; }
 
         public List<Insert> Inserts { get; set; }
@@ -49,25 +49,29 @@ namespace Forum_Snackis.Pages
             MyUser = await _userManager.GetUserAsync(User);
             Users = await _snackisContext.Users.ToListAsync();
 
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            Insert insert = new Insert();
+
             if (OffensiveId != 0)
             {
-                Insert insert = await _snackisContext.Inserts.FindAsync(OffensiveId);
+                insert = await _snackisContext.Inserts.FindAsync(OffensiveId);
 
                 if (insert != null)
                 {
                     insert.Offensive = true;
                     await _snackisContext.SaveChangesAsync();
+                    
                 }
-                RedirectToPage("/index");
-            }
-        }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
+            }
+
             if (InsertId != 0)
             {
 
-                Insert insert = await _snackisContext.Inserts.FindAsync(InsertId);
+                insert = await _snackisContext.Inserts.FindAsync(InsertId);
 
                 if (insert != null)
                 {
@@ -76,7 +80,7 @@ namespace Forum_Snackis.Pages
                 }
             }
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Threads", new { Subject = insert.Subject, Thread = insert.Thread });
         }
 
         public async Task<IActionResult> OnPostAddLike(int id)
@@ -89,7 +93,7 @@ namespace Forum_Snackis.Pages
                 await _snackisContext.SaveChangesAsync();
             }
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Threads", new { Subject = insert.Subject, Thread = insert.Thread });
         }
         public async Task<IActionResult> OnPostAddHearts(int id)
         {
@@ -101,7 +105,7 @@ namespace Forum_Snackis.Pages
                 await _snackisContext.SaveChangesAsync();
             }
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Threads", new { Subject = insert.Subject, Thread = insert.Thread });
         }
         public async Task<IActionResult> OnPostAddDislike(int id)
         {
@@ -113,14 +117,14 @@ namespace Forum_Snackis.Pages
                 await _snackisContext.SaveChangesAsync();
             }
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Threads", new {Subject = insert.Subject, Thread = insert.Thread });
         } 
 
         public string BadFilter(string text)
         {
 
-            Regex wordFilter = new Regex("(bil|kiss|bajskorv|avföring)", RegexOptions.IgnoreCase);
-            return wordFilter.Replace(text, "****");
+            Regex filter = new Regex("(bil|kiss|bajskorv|avföring)", RegexOptions.IgnoreCase);
+            return filter.Replace(text, "****");
         }
     }
 }

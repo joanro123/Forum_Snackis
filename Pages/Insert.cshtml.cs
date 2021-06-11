@@ -53,7 +53,7 @@ namespace Forum_Snackis.Pages
             _snackisContext.Inserts.Add(insert);
            await _snackisContext.SaveChangesAsync();
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Threads", new {Subject = insert.Subject, Thread = insert.Thread });
         }
     }
 }
