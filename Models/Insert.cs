@@ -19,5 +19,6 @@ namespace Forum_Snackis.Models
         public int Like { get; set; }
         public int Dislike { get; set; }
         public int Hearts { get; set; }
+        public int ParentId { get; set; }
     }
 }

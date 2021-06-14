@@ -48,9 +48,8 @@ namespace Forum_Snackis.Areas.Identity.Pages.Account.Manage
             Users = _snackisContext.Users.ToList();
             MyUser = await _userManager.GetUserAsync(User);
             GroupMessages = _snackisContext.GroupMessages.ToList();
-            Distinct = GroupMessages.GroupBy(g => g.Name).Select(s => s.First()).ToList();
-            //  GroupsWithMyUser = _snackisContext.GroupMessages.Where(w => w.Member == MyUser.NickName || w.Creator == MyUser.Id).ToList();
-            var q = GroupMessages.GroupBy(g => g.Name, g => g.Member, (key, g) => new { Name = key, Members = g.ToList() }).ToList();
+            Distinct = GroupMessages.GroupBy(g => new { g.Name, g.Member, g.Creator }).Select(s => s.First()).ToList();
+            GroupsWithMyUser = GroupMessages.Where(w => w.Member == MyUser.NickName || w.Creator == MyUser.NickName).ToList();
             
 
             if (DeleteUserId != 0)

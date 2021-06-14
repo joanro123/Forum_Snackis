@@ -3,17 +3,33 @@
 @{
 }
 
-@if (Model.MyUser != null)
+@if (Model.MyUser != null && Model.InsertId == 0)
 {
-<form method="post">
+    <form method="post">
+        <textarea rows="4" cols="70" name="text" placeholder="Skriv här"></textarea>
+        <input name="writer" value="@Model.MyUser.Id" hidden />
+        <input name="WriterNickName" value="@Model.MyUser.NickName" hidden />
+        <br />
+        <button type="submit">Spara</button>
+    </form>
+}
+@if (Model.MyUser == null)
+{
+    <p>Du måste logga in först.</p>
+}
+
+@*subthread*@
+
+@if (Model.MyUser != null && Model.InsertId != 0)
+{
+<form asp-page-handler="subthread" method="post">
     <textarea rows="4" cols="70" name="text" placeholder="Skriv här"></textarea>
     <input name="writer" value="@Model.MyUser.Id" hidden />
-    <input name="WriterNickName" value="@Model.MyUser.NickName" hidden/>
+    <input name="WriterNickName" value="@Model.MyUser.NickName" hidden />
+    <input name="Subject" value="@Model.Subject" hidden />
+    <input name="Thread" value="@Model.Thread" hidden />
+    <input name="InsertId" value="@Model.InsertId" hidden />
     <br />
     <button type="submit">Spara</button>
 </form>
-}
-else
-{
-    <p>Du måste logga in först.</p>
 }

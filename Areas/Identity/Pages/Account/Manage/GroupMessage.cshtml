@@ -37,10 +37,11 @@
     <select name="groupname" id="cars">
         @foreach (var item in Model.Distinct)
         {
-            if (item.Creator == Model.MyUser.NickName)
+            if (item.Member == Model.MyUser.NickName || item.Creator == Model.MyUser.NickName)
             {
                 <option value="@item.Name">@item.Name</option>
             }
+
         }
     </select>
     <br />
@@ -53,7 +54,7 @@
 
 <p>Här ser du medlemmarna.</p>
 
-@foreach (var item in Model.GroupMessages.GroupBy(g => g.Name))
+@foreach (var item in Model.GroupsWithMyUser.GroupBy(g => g.Name))
 {
 <ul>
     <li><b>@item.Key</b></li>
@@ -95,9 +96,6 @@
             {
             <li>@member.Member (Skapade gruppen) (Det är jag)</li>
             }
-
-
-
         }
     }
 </ul>
@@ -105,8 +103,10 @@
 
 
 
+
+
 <form method="post">
-    <label for="cars">Välj grupp du vilka skriva till</label>
+    <label for="cars">Välj grupp du vill skriva till</label>
     <select name="groupname" id="cars">
         @foreach (var item in Model.GroupMessages)
         {

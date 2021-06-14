@@ -17,7 +17,7 @@
 <form method="post">
     <label for="cars">Välj mottagare</label>
     <select name="receiver" id="cars">
-        @foreach (var item in Model.PrivateMessages)
+        @foreach (var item in Model.Distinct)
         {
             if (item.UserId == Model.MyUser.Id)
             {
@@ -42,6 +42,20 @@
 </form>
 <br />*@
 
+<form method="get">
+    <label for="cars">Visa konversation med</label>
+    <select name="filterreceiver" id="cars">
+        @foreach (var item in Model.Distinct)
+        {
+            if (item.UserId == Model.MyUser.Id)
+            {
+                <option value="@item.Receiver">@item.Receiver</option>
+            }
+        }
+    </select>
+    <button type="submit">Visa</button>
+</form>
+
 <div class="container">
 
     <div class="row">
@@ -53,7 +67,7 @@
 
                 if (message.Text != null)
                 {
-                    if (message.Receiver == user.NickName && message.UserId == Model.MyUser.Id)
+                    if (message.Receiver == user.NickName && message.UserId == Model.MyUser.Id && user.NickName == Model.FilterReceiver) 
                     {
 
 
@@ -75,7 +89,7 @@
                 </div>
                     }
 
-                    if (message.Receiver == Model.MyUser.NickName && message.UserId == user.Id)
+                    if (message.Receiver == Model.MyUser.NickName && message.UserId == user.Id && user.NickName == Model.FilterReceiver)
                     {
                 <div class="card" style="margin-bottom:20px">
                     <div class="card-body" style="width:1000px">

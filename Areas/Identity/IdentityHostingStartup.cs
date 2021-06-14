@@ -20,7 +20,8 @@ namespace Forum_Snackis.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("ronnqvistsnackisdb2")));
 
-                services.AddDefaultIdentity<Forum_SnackisUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<Forum_SnackisUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<Forum_SnackisContext>();
             });
         }

@@ -20,6 +20,8 @@ namespace Forum_Snackis.Pages
         public string Subject { get; set; }
         [BindProperty(SupportsGet = true)]
         public string Thread { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public int InsertId { get; set; }
         [BindProperty]
         public string Text { get; set; }
         public List<Insert> Inserts { get; set; }
@@ -54,6 +56,24 @@ namespace Forum_Snackis.Pages
            await _snackisContext.SaveChangesAsync();
 
             return RedirectToPage("/Threads", new {Subject = insert.Subject, Thread = insert.Thread });
+        }
+
+        public async Task<IActionResult> OnPostSubThread()
+        {
+            Insert insert = new Insert();
+            insert.Date = DateTime.Now;
+            insert.Subject = Subject;
+            insert.Thread = Thread;
+            insert.ParentId = InsertId;
+            insert.Text = Text;
+            insert.Writer = Writer;
+            insert.WriterNickName = WriterNickName;
+            
+
+            _snackisContext.Inserts.Add(insert);
+            await _snackisContext.SaveChangesAsync();
+
+            return RedirectToPage("/Subthread", new { Subject = insert.Subject, Thread = insert.Thread, InsertId = insert.ParentId });
         }
     }
 }
