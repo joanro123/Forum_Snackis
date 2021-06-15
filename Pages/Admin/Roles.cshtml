@@ -1,0 +1,58 @@
+﻿@page
+@model Forum_Snackis.Pages.Admin.RolesModel
+@{
+}
+
+<div>
+    Befintliga roller: <br />
+    @foreach (var item in Model.RolesList)
+    {
+        <p>@item.Name</p>
+    }
+</div>
+
+<form method="post">
+    <label for="rolename">Ny roll</label>
+    <input name="rolename" />
+    <input type="submit" value="Skapa ny roll" />
+</form>
+
+
+
+<div>
+    Befintliga användare: <br />
+
+    <table>
+
+        <tr>
+            <th>Användarnamn</th>
+            @foreach (var role in Model.RolesList)
+            {
+                <th>@role.Name</th>
+            }
+        </tr>
+
+        @foreach (var user in Model.Users)
+        {
+
+            <tr>
+                <td>@user.NickName</td>
+
+                @foreach (var role in Model.RolesList)
+                {
+
+                    if (await Model._userManager.IsInRoleAsync(user, role.Name))
+                    {
+                        <td><a href="?RemoveUserId=@user.Id&Role=@role.Name" class="bg-success text-white">Yes</a></td>
+                    }
+                    else
+                    {
+                        
+                        <td><a href="?AddUserId=@user.Id&Role=@role.Name" class="bg-danger text-white">No</a></td>
+                    }
+                }
+
+            </tr>
+        }
+    </table>
+</div>

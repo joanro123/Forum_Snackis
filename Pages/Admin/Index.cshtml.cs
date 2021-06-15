@@ -37,7 +37,7 @@ namespace Forum_Snackis.Pages.Admin
             _forum_SnackisContext = forum_SnackisContext;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             Functions = _forum_SnackisContext.AdminFunctions.ToList();
             Threads = _forum_SnackisContext.Threads.ToList();
@@ -72,7 +72,7 @@ namespace Forum_Snackis.Pages.Admin
                     {
                         _forum_SnackisContext.Remove(item);
                     }
-                    _forum_SnackisContext.SaveChanges();
+                   await _forum_SnackisContext.SaveChangesAsync();
                     return RedirectToPage("/Admin/Index");
                 }
 
@@ -85,7 +85,7 @@ namespace Forum_Snackis.Pages.Admin
                 if (insert != null)
                 {
                     _forum_SnackisContext.Remove(insert);
-                    _forum_SnackisContext.SaveChanges();
+                   await _forum_SnackisContext.SaveChangesAsync();
                     return RedirectToPage("/Admin/Index");
                 }
             }
@@ -93,14 +93,14 @@ namespace Forum_Snackis.Pages.Admin
             return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             AdminFunctions adminFunctions = new AdminFunctions();
             adminFunctions.ForumHeader = Header;
             adminFunctions.Subject = Subject;
             adminFunctions.Description = Description;
             _forum_SnackisContext.AdminFunctions.Add(adminFunctions);
-            _forum_SnackisContext.SaveChanges();
+            await  _forum_SnackisContext.SaveChangesAsync();
 
 
             return RedirectToPage("/Admin/Index");

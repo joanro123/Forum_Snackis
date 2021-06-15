@@ -23,10 +23,21 @@ namespace Forum_Snackis
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("MustBeAdmin",
+                    policy => policy.RequireRole("Admin"));
+            });
+
             //  services.AddHttpClient<Gateway.InsertGateway>();
             //  services.AddScoped<Models.IInsertGateway, Gateway.InsertGateway>();
             services.AddControllers();
-            services.AddRazorPages();            
+            services.AddRazorPages(options => 
+            {
+                //options.Conventions.AuthorizePage("/Privacy");
+                options.Conventions.AuthorizeFolder("/Admin", "MustBeAdmin");
+            
+            });            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
