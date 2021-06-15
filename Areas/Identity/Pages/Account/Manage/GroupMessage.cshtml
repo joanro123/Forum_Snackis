@@ -35,12 +35,11 @@
 <form method="post">
     <label for="cars">Välj grupp</label>
     <select name="groupname" id="cars">
-        @foreach (var item in Model.Distinct)
+        @foreach (var item in Model.GroupNames.GroupBy(g => g.Name))
         {
-            if (item.Member == Model.MyUser.NickName || item.Creator == Model.MyUser.NickName)
-            {
-                <option value="@item.Name">@item.Name</option>
-            }
+            
+                <option value="@item.Key">@item.Key</option>
+            
 
         }
     </select>

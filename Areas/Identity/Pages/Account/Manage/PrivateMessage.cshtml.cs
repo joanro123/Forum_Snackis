@@ -22,6 +22,8 @@ namespace Forum_Snackis.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public string UserId { get; set; }
         [BindProperty]
+        public string SenderNickname { get; set; }
+        [BindProperty]
         public string Text { get; set; }
         [BindProperty(SupportsGet = true)]
         public string FilterReceiver { get; set; }
@@ -42,6 +44,7 @@ namespace Forum_Snackis.Areas.Identity.Pages.Account.Manage
             PrivateMessages = await _forum_SnackisContext.PrivateMessages.ToListAsync();
             Users = await _forum_SnackisContext.Users.ToListAsync();
             Distinct = PrivateMessages.GroupBy(g => new { g.Receiver, g.UserId }).Select(s => s.First()).ToList();
+        //    Distinct = PrivateMessages.Where(w => w.UserId == MyUser.Id || w.Receiver == MyUser.NickName).Distinct().ToList();
           
 
             return Page();
@@ -52,6 +55,7 @@ namespace Forum_Snackis.Areas.Identity.Pages.Account.Manage
             PrivateMessage privateMessage = new PrivateMessage();
             privateMessage.Receiver = Receiver;
             privateMessage.UserId = UserId;
+            privateMessage.SenderNickname = SenderNickname;
             privateMessage.Text = Text;
             privateMessage.Date = DateTime.Now;
 

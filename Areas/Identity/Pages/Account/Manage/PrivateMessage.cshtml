@@ -8,6 +8,7 @@
 <form method="post">
     <input type="text" name="receiver" />
     <input name="userid" value="@Model.MyUser.Id" hidden />
+    <input name="sendernickname" value="@Model.MyUser.NickName" hidden />
     <button type="submit">Spara</button>
 </form>
 <br />
@@ -23,12 +24,14 @@
             {
                 <option value="@item.Receiver">@item.Receiver</option>
             }
+            
         }
     </select>
     <br />
     <textarea rows="4" cols="70" name="text" placeholder="Skriv här"></textarea>
     <input name="receiver" value="@Model.Receiver" hidden />
     <input name="userid" value="@Model.MyUser.Id" hidden />
+    <input name="sendernickname" value="@Model.MyUser.NickName" hidden />
     <br />
     <button type="submit">Spara</button>
 </form>
@@ -45,20 +48,18 @@
 <form method="get">
     <label for="cars">Visa konversation med</label>
     <select name="filterreceiver" id="cars">
-        @foreach (var item in Model.Distinct)
+        @foreach (var item in Model.PrivateMessages)
         {
-            foreach (var user in Model.Users)
-            {
 
-                if (item.UserId == Model.MyUser.Id)
-                {
-                    <option value="@item.Receiver">@item.Receiver</option>
-                }
-                if (item.Receiver == Model.MyUser.NickName && item.UserId == user.Id)
-                {
-                    <option value="@user.NickName">@user.NickName</option>
-                }
+            if (item.UserId == Model.MyUser.Id)
+            {
+                <option value="@item.Receiver">@item.Receiver</option>
             }
+            if (item.Receiver == Model.MyUser.NickName)
+            {
+                <option value="@item.SenderNickname">@item.SenderNickname</option>
+            }
+
         }
     </select>
     <button type="submit">Visa</button>
