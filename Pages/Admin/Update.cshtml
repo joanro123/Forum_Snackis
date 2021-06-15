@@ -9,12 +9,14 @@
     {
 
 
-        <form method="post">
-            <input type="text" name="header" value="@item.ForumHeader" />
-            <br />
-            <input type="text" name="subject" value="@item.Subject" />
-            <br />
-            <button type="submit">Spara</button>
-        </form>
+<form method="post">
+    <input type="text" name="header" value="@item.ForumHeader" />
+    <br />
+    <input type="text" name="subject" value="@item.Subject" />
+    <br />
+    <textarea rows="3" cols="50" name="description" placeholder="@item.Description"></textarea>
+    <br />
+    <button type="submit">Spara</button>
+</form>
     }
 }

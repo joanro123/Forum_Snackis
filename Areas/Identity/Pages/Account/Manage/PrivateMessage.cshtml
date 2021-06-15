@@ -47,9 +47,17 @@
     <select name="filterreceiver" id="cars">
         @foreach (var item in Model.Distinct)
         {
-            if (item.UserId == Model.MyUser.Id)
+            foreach (var user in Model.Users)
             {
-                <option value="@item.Receiver">@item.Receiver</option>
+
+                if (item.UserId == Model.MyUser.Id)
+                {
+                    <option value="@item.Receiver">@item.Receiver</option>
+                }
+                if (item.Receiver == Model.MyUser.NickName && item.UserId == user.Id)
+                {
+                    <option value="@user.NickName">@user.NickName</option>
+                }
             }
         }
     </select>

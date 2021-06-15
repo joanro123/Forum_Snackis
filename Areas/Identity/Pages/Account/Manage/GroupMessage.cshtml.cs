@@ -35,6 +35,7 @@ namespace Forum_Snackis.Areas.Identity.Pages.Account.Manage
         public List<GroupMessage> GroupMessages { get; set; }
         public List<GroupMessage> Distinct { get; set; }
         public List<GroupMessage> GroupsWithMyUser { get; set; }
+        public List<GroupMessage> GroupNames { get; set; }
 
 
         public GroupMessageModel(Forum_SnackisContext snackisContext, UserManager<Forum_SnackisUser> userManager)
@@ -50,7 +51,13 @@ namespace Forum_Snackis.Areas.Identity.Pages.Account.Manage
             GroupMessages = _snackisContext.GroupMessages.ToList();
             Distinct = GroupMessages.GroupBy(g => new { g.Name, g.Member, g.Creator }).Select(s => s.First()).ToList();
             GroupsWithMyUser = GroupMessages.Where(w => w.Member == MyUser.NickName || w.Creator == MyUser.NickName).ToList();
+
+            GroupNames = GroupMessages
+                .Where(first => GroupsWithMyUser.Any(second =>
+                second.Name == first.Name)).ToList();
+
             
+
 
             if (DeleteUserId != 0)
             {

@@ -18,6 +18,8 @@ namespace Forum_Snackis.Pages.Admin
         public string Header { get; set; }
         [BindProperty]
         public string Subject { get; set; }
+        [BindProperty]
+        public string Description { get; set; }
         public List<AdminFunctions> Functions { get; set; }
         [BindProperty(SupportsGet = true)]
         public int UpdateId { get; set; }
@@ -41,6 +43,7 @@ namespace Forum_Snackis.Pages.Admin
                 AdminFunctions adminFunctions = await _snackisContext.AdminFunctions.FindAsync(UpdateId);
                 adminFunctions.ForumHeader = Header;
                 adminFunctions.Subject = Subject;
+                adminFunctions.Description = Description;
                 _snackisContext.SaveChanges();
             }
 

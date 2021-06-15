@@ -12,5 +12,6 @@ namespace Forum_Snackis.Models
         public string Text { get; set; }
         public DateTime Date { get; set; }
         public string UserId { get; set; }
+        public string SenderNickname { get; set; }
     }
 }

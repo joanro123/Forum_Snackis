@@ -54,7 +54,7 @@
 
 <p>Här ser du medlemmarna.</p>
 
-@foreach (var item in Model.GroupsWithMyUser.GroupBy(g => g.Name))
+@foreach (var item in Model.GroupNames.GroupBy(g => g.Name))
 {
 <ul>
     <li><b>@item.Key</b></li>
@@ -94,7 +94,7 @@
 
             if (member.AcceptInvitation == true && member.Creator == Model.MyUser.NickName && member.Member == Model.MyUser.NickName)
             {
-            <li>@member.Member (Skapade gruppen) (Det är jag)</li>
+            <li>@member.Member (Skapade gruppen)</li>
             }
         }
     }
@@ -105,7 +105,7 @@
 
 
 
-<form method="post">
+<form method="post" style="padding-bottom:20px">
     <label for="cars">Välj grupp du vill skriva till</label>
     <select name="groupname" id="cars">
         @foreach (var item in Model.GroupMessages)
@@ -124,20 +124,22 @@
     <button type="submit">Spara</button>
 </form>
 
-@foreach (var message in Model.GroupMessages.GroupBy(g => g.Name))
+@foreach (var message in Model.GroupNames.GroupBy(g => g.Name))
 {
     <h5>@message.Key</h5>
     @foreach (var item in message)
     {
-
-        if (item.Message != null)
+        foreach (var user in Model.Users)
         {
+
+            if (item.Message != null && item.Creator == user.NickName)
+            {
 
     <div class="card" style="margin-bottom:20px; margin-top:20px">
         <div class="card-body" style="width:1000px">
             <div class="row">
                 <div class="col-2">
-                    <img src="" class="rounded-circle" style="margin-right: 10px; margin-left: 10px; height: 50px; width: 50px" alt="...">
+                    <img src="@user.Photo" class="rounded-circle" style="margin-right: 10px; margin-left: 10px; height: 50px; width: 50px" alt="...">
                     <br />
                         @item.Creator                  
                 </div>
@@ -152,7 +154,8 @@
         </div>
     </div>
 
-                
+
+                }
             }
         }
     }
