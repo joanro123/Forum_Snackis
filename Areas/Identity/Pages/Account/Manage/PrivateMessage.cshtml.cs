@@ -32,6 +32,7 @@ namespace Forum_Snackis.Areas.Identity.Pages.Account.Manage
         public List<PrivateMessage> PrivateMessages { get; set; }
         public List<Forum_SnackisUser> Users { get; set; }
         public List<PrivateMessage> Distinct { get; set; }
+        public List<PrivateMessage> MyMessages { get; set; }
 
         public PrivateMessageModel(Forum_SnackisContext forum_SnackisContext, UserManager<Forum_SnackisUser> userManager)
         {
@@ -44,7 +45,7 @@ namespace Forum_Snackis.Areas.Identity.Pages.Account.Manage
             PrivateMessages = await _forum_SnackisContext.PrivateMessages.ToListAsync();
             Users = await _forum_SnackisContext.Users.ToListAsync();
             Distinct = PrivateMessages.GroupBy(g => new { g.Receiver, g.UserId }).Select(s => s.First()).ToList();
-        //    Distinct = PrivateMessages.Where(w => w.UserId == MyUser.Id || w.Receiver == MyUser.NickName).Distinct().ToList();
+            MyMessages = PrivateMessages.Where(w => w.Receiver == MyUser.NickName || w.SenderNickname == MyUser.NickName).ToList();
           
 
             return Page();

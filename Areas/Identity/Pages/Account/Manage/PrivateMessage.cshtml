@@ -48,19 +48,21 @@
 <form method="get">
     <label for="cars">Visa konversation med</label>
     <select name="filterreceiver" id="cars">
-        @foreach (var item in Model.PrivateMessages)
-        {
 
-            if (item.UserId == Model.MyUser.Id)
-            {
-                <option value="@item.Receiver">@item.Receiver</option>
-            }
+        @foreach (var item in Model.MyMessages.Select(s => new { s.Receiver, s.SenderNickname }).Distinct())
+        {
             if (item.Receiver == Model.MyUser.NickName)
             {
                 <option value="@item.SenderNickname">@item.SenderNickname</option>
-            }
 
+            }
+            if (item.SenderNickname == Model.MyUser.NickName)
+            {
+                <option value="@item.Receiver">@item.Receiver</option>
+
+            }
         }
+
     </select>
     <button type="submit">Visa</button>
 </form>

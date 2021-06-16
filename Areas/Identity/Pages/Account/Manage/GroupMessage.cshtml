@@ -159,29 +159,3 @@
         }
     }
 
-@*@foreach (var group in Model.GroupMessages)
-    {
-        if (Model.MyUser.NickName == group.Member || Model.MyUser.Id == group.Creator)
-        {
-            <ul>
-                @if (group.Member != null)
-                {
-                    <li><b>@group.Name</b></li>
-                }
-
-                @if (group.Member != null)
-                {
-                    @if (group.AcceptInvitation != true)
-                    {
-                        <li>@group.Member (har inte tackat ja)</li>
-                    }
-                    else
-                    {
-                        <li>@group.Member</li>
-                    }
-                }
-
-            </ul>
-
-        }
-    }*@
