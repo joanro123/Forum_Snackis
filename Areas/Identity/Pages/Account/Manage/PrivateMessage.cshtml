@@ -18,13 +18,9 @@
 <form method="post">
     <label for="cars">Välj mottagare</label>
     <select name="receiver" id="cars">
-        @foreach (var item in Model.Distinct)
+        @foreach (var item in Model.ListWithBoth)
         {
-            if (item.UserId == Model.MyUser.Id)
-            {
-                <option value="@item.Receiver">@item.Receiver</option>
-            }
-            
+            <option value="@item">@item</option>
         }
     </select>
     <br />
@@ -49,7 +45,13 @@
     <label for="cars">Visa konversation med</label>
     <select name="filterreceiver" id="cars">
 
-        @foreach (var item in Model.MyMessages.Select(s => new { s.Receiver, s.SenderNickname }).Distinct())
+        @foreach (var item in Model.ListWithBoth)
+        {
+            <option value="@item">@item</option>
+        }
+
+
+        @*@foreach (var item in Model.MyMessages.Select(s => new { s.Receiver, s.SenderNickname }).Distinct())
         {
             if (item.Receiver == Model.MyUser.NickName)
             {
@@ -61,7 +63,7 @@
                 <option value="@item.Receiver">@item.Receiver</option>
 
             }
-        }
+        }*@
 
     </select>
     <button type="submit">Visa</button>
