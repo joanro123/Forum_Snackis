@@ -39,17 +39,6 @@ namespace Forum_Snackis.Controllers
             return insert;
         }
 
-        //[HttpGet("{writernickname}")]
-        //public async Task<ActionResult<Insert>> GetInsertByWriter(string writerNickName)
-        //{
-        //    var insert = await _context.Inserts.FindAsync(writerNickName);
-
-        //    if (insert != null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return insert;
-        //}
+        
     }
 }

@@ -33,13 +33,6 @@
 </form>
 <br />
 
-@*<form method="post">
-    <textarea rows="4" cols="70" name="text" placeholder="Skriv här"></textarea>
-    <input name="receiver" value="@Model.Receiver" hidden />
-    <br />
-    <button type="submit">Spara</button>
-</form>
-<br />*@
 
 <form method="get">
     <label for="cars">Visa konversation med</label>
@@ -50,20 +43,6 @@
             <option value="@item">@item</option>
         }
 
-
-        @*@foreach (var item in Model.MyMessages.Select(s => new { s.Receiver, s.SenderNickname }).Distinct())
-        {
-            if (item.Receiver == Model.MyUser.NickName)
-            {
-                <option value="@item.SenderNickname">@item.SenderNickname</option>
-
-            }
-            if (item.SenderNickname == Model.MyUser.NickName)
-            {
-                <option value="@item.Receiver">@item.Receiver</option>
-
-            }
-        }*@
 
     </select>
     <button type="submit">Visa</button>
